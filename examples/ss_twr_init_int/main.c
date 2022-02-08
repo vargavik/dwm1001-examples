@@ -134,6 +134,7 @@ int main(void)
   
   //-------------dw1000  ini------------------------------------	
 
+  void vInterruptInit (void);
   /* Setup NRF52832 interrupt on GPIO 25 : connected to DW1000 IRQ*/
   vInterruptInit();
 	
@@ -153,6 +154,8 @@ int main(void)
     //Init of DW1000 Failed
     while (1) {};
   }
+
+
 
   // Set SPI to 8MHz clock  
   port_set_dw1000_fastrate();
