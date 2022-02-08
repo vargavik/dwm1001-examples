@@ -32,6 +32,7 @@
 #include "nrf.h"
 #include "app_error.h"
 #include <string.h>
+#include "UART.h"
 
 #include "port_platform.h"
 #include "deca_types.h"
@@ -120,6 +121,9 @@ int main(void)
     /* Create task for SS TWR Initiator set to 2 */
     UNUSED_VARIABLE(xTaskCreate(ss_responder_task_function, "SSTWR_RESP", configMINIMAL_STACK_SIZE + 200, NULL, 2, &ss_responder_task_handle)); 
   #endif  // #ifdef USE_FREERTOS
+
+    boUART_Init ();
+    printf("Receiver Start \r\n");
 
   //-------------dw1000  ini------------------------------------	
 

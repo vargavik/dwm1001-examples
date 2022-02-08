@@ -61,3 +61,4 @@ dkms.conf
 
 # Arm project user dependant file 
 ./examples/*/*.uvguix.*
+examples/ss_twr_init_int/SES/Output/nrf52832_xxaa/Obj/
