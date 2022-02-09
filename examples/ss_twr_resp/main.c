@@ -17,9 +17,10 @@
 */
 
 #include "sdk_config.h"
+
 #include "FreeRTOS.h"
 #include "task.h"
-#include "timers.h"
+
 #include "bsp.h"
 #include "boards.h"
 #include "nordic_common.h"
@@ -31,7 +32,10 @@
 #include "nrf_log.h"
 #include "nrf.h"
 #include "app_error.h"
+
+#include <stdio.h>
 #include <string.h>
+
 #include "UART.h"
 
 #include "port_platform.h"
@@ -39,6 +43,7 @@
 #include "deca_param_types.h"
 #include "deca_regs.h"
 #include "deca_device_api.h"
+
 
 // Defines ---------------------------------------------
 
@@ -71,101 +76,8 @@ static dwt_config_t config = {
   (129 + 8 - 8)     /* SFD timeout (preamble length + 1 + SFD length - PAC size). Used in RX only. */
 };
 
-//--------------dw1000---end---------------
-
-
-#define TASK_DELAY        1000            /**< Task delay. Delays a LED0 task for 200 ms */
-#define TIMER_PERIOD      2000          /**< Timer period. LED1 timer will expire after 1000 ms */
-
-#ifdef USE_FREERTOS
-  TaskHandle_t  ss_responder_task_handle;   /**< Reference to SS TWR Initiator FreeRTOS task. */
-  extern void ss_responder_task_function (void * pvParameter);
-  TaskHandle_t  led_toggle_task_handle;   /**< Reference to LED0 toggling FreeRTOS task. */
-  TimerHandle_t led_toggle_timer_handle;  /**< Reference to LED1 toggling FreeRTOS timer. */
-#else
-  extern int ss_resp_run(void);
-#endif    // #ifdef USE_FREERTOS
-
-#ifdef USE_FREERTOS
-
-  /**@brief LED0 task entry function.
-  *
-  * @param[in] pvParameter   Pointer that will be used as the parameter for the task.
-  */
-
-  static void print_rtos_status()
+static void dw1000_init()
 {
-        volatile size_t freeheap = xPortGetFreeHeapSize();
-
-	printf("Free heap: %u\n", freeheap );
-
-	//TaskStatus_t pxTaskStatusArray[32];
-	//UBaseType_t uxArraySize = uxTaskGetNumberOfTasks();
-
-	//if (uxArraySize < 32)
-	//{
-	//	uxArraySize = uxTaskGetSystemState(pxTaskStatusArray, uxArraySize, NULL);
-
-	//	printf("Name\t\tNr\tWaterMark\n");
-
-	//	for (uint8_t i = 0; i < uxArraySize; i++)
-	//	{
-	//		printf("%s\t\t%u\t%u\n",
-	//			pxTaskStatusArray[i].pcTaskName,
-	//			pxTaskStatusArray[i].xTaskNumber,
-	//			pxTaskStatusArray[i].usStackHighWaterMark);
-	//	}
-	//}
-}
-
-  static void led_toggle_task_function (void * pvParameter)
-  {
-    UNUSED_PARAMETER(pvParameter);
-    while (true)
-    {
-      //LEDS_INVERT(BSP_LED_0_MASK);
-      /* Delay a task for a given number of ticks */
-      vTaskDelay(TASK_DELAY);
-      print_rtos_status();
-    /* Tasks must be implemented to never return... */
-    }
-  }
-
-  /**@brief The function to call when the LED1 FreeRTOS timer expires.
-  *
-  * @param[in] pvParameter   Pointer that will be used as the parameter for the timer.
-  */
-  static void led_toggle_timer_callback (void * pvParameter)
-  {
-    UNUSED_PARAMETER(pvParameter);
-    //LEDS_INVERT(BSP_LED_1_MASK);
-}
-
-#endif  // #ifdef USE_FREERTOS
-
-int main(void)
- {
-  /* Setup some LEDs for debug Green and Blue on DWM1001-DEV */
-  //LEDS_CONFIGURE(BSP_LED_0_MASK | BSP_LED_1_MASK);
-  //LEDS_ON(BSP_LED_0_MASK | BSP_LED_1_MASK);
-
-  #ifdef USE_FREERTOS
-    /* Create task for LED0 blinking with priority set to 2 */
-    UNUSED_VARIABLE(xTaskCreate(led_toggle_task_function, "LED0", configMINIMAL_STACK_SIZE + 200, NULL, 2, &led_toggle_task_handle));
-
-    /* Start timer for LED1 blinking */
-    led_toggle_timer_handle = xTimerCreate( "LED1", TIMER_PERIOD, pdTRUE, NULL, led_toggle_timer_callback);
-    UNUSED_VARIABLE(xTimerStart(led_toggle_timer_handle, 0));
-
-    /* Create task for SS TWR Initiator set to 2 */
-    UNUSED_VARIABLE(xTaskCreate(ss_responder_task_function, "SSTWR_RESP", configMINIMAL_STACK_SIZE + 200, NULL, 2, &ss_responder_task_handle)); 
-  #endif  // #ifdef USE_FREERTOS
-
-    boUART_Init ();
-    printf("Receiver Start \r\n");
-
-  //-------------dw1000  ini------------------------------------	
-
   /* Setup DW1000 IRQ pin */
   nrf_gpio_cfg_input(DW1000_IRQ, NRF_GPIO_PIN_NOPULL); 		//irq
 
@@ -189,46 +101,119 @@ int main(void)
   /* Configure DW1000. */
   dwt_configure(&config);
 
-  /* Apply default antenna delay value. Defined in port platform.h */
-  dwt_setrxantennadelay(RX_ANT_DLY);
-  dwt_settxantennadelay(TX_ANT_DLY);
-
   /* Set preamble timeout for expected frames.  */
-  //dwt_setpreambledetecttimeout(PRE_TIMEOUT);
+  //dwt_setpreambledetecttimeout(PRE_TIMEOUT);  
+}
+//--------------dw1000---end---------------
 
-  dwt_setrxtimeout(0);    // set to NO receive timeout for this simple example   
+static void print_rtos_status()
+{
+	printf("%07lu Free heap: %u\n",xTaskGetTickCount(), xPortGetFreeHeapSize());
+	
+        static TaskStatus_t pxTaskStatusArray[32];
+	UBaseType_t uxArraySize = uxTaskGetNumberOfTasks();
 
-  //-------------dw1000  ini------end---------------------------	
+	if (uxArraySize < 32)
+	{
+		uxArraySize = uxTaskGetSystemState(pxTaskStatusArray, uxArraySize, NULL);
 
-  // IF WE GET HERE THEN THE LEDS WILL BLINK
-  #ifdef USE_FREERTOS
-    /* Start FreeRTOS scheduler. */
-    vTaskStartScheduler();	
+		printf("Name         \tNr\tWaterMark\n");
 
-    while(1)
-    {}
-  #else
-    // No RTOS task here so just call the main loop here.
-    // Loop forever responding to ranging requests.
-    while (1)
-    {
-      ss_resp_run();
-    }
-    #endif  // #ifdef USE_FREERTOS
+		for (uint8_t i = 0; i < uxArraySize; i++)
+		{
+			printf("%-13s\t%u\t%u\n",
+				pxTaskStatusArray[i].pcTaskName,
+				pxTaskStatusArray[i].xTaskNumber,
+				pxTaskStatusArray[i].usStackHighWaterMark);
+		}
+	}
 }
 
-/*****************************************************************************************************************************************************
-* NOTES:
-*
-* 1. The single-sided two-way ranging scheme implemented here has to be considered carefully as the accuracy of the distance measured is highly
-*    sensitive to the clock offset error between the devices and the length of the response delay between frames. To achieve the best possible
-*    accuracy, this response delay must be kept as low as possible. In order to do so, 6.8 Mbps data rate is used in this example and the response
-*    delay between frames is defined as low as possible. The user is referred to User Manual for more details about the single-sided two-way ranging
-*    process.  NB:SEE ALSO NOTE 3.
-* 2. This is the task delay when using FreeRTOS. Task is delayed a given number of ticks. Useful to be able to define this out to see the effect of the RTOS
-*    on timing.
-* 3. The user is referred to DecaRanging ARM application (distributed with EVK1000 product) for additional practical example of usage, and to the
-*     DW1000 API Guide for more details on the DW1000 driver functions.
-*
-****************************************************************************************************************************************************/
+static void rtos_status_task_function (void * pvParameter)
+{
+  UNUSED_PARAMETER(pvParameter);
+  while (true)
+  {
+    vTaskDelay(1000);
+    print_rtos_status();
+  }
+}
 
+#define RX_BUF_LEN 24
+static void dwt_task_function (void * pvParameter)
+{
+  UNUSED_PARAMETER(pvParameter);
+
+  uint32 status_reg = 0;
+  static uint8 rx_buffer[RX_BUF_LEN];
+
+  dwt_setrxtimeout(0);
+
+  for(;;){
+    /* Activate reception immediately. */
+    dwt_rxenable(DWT_START_RX_IMMEDIATE);
+
+    /* Poll for reception of a frame or error/timeout. See NOTE 5 below. */
+    while (!((status_reg = dwt_read32bitreg(SYS_STATUS_ID)) & (SYS_STATUS_RXFCG | SYS_STATUS_ALL_RX_TO | SYS_STATUS_ALL_RX_ERR)))
+    {};
+
+      #if 0	  // Include to determine the type of timeout if required.
+      int temp = 0;
+      // (frame wait timeout and preamble detect timeout)
+      if(status_reg & SYS_STATUS_RXRFTO )
+      temp =1;
+      else if(status_reg & SYS_STATUS_RXPTO )
+      temp =2;
+      #endif
+
+    if (status_reg & SYS_STATUS_RXFCG)
+    {
+      uint32 frame_len;
+
+      /* Clear good RX frame event in the DW1000 status register. */
+      dwt_write32bitreg(SYS_STATUS_ID, SYS_STATUS_RXFCG);
+
+      /* A frame has been received, read it into the local buffer. */
+      frame_len = dwt_read32bitreg(RX_FINFO_ID) & RX_FINFO_RXFL_MASK_1023;
+      if (frame_len <= RX_BUFFER_LEN)
+      {
+        dwt_readrxdata(rx_buffer, frame_len, 0);
+        printf("%02X %02X\n",rx_buffer[2],rx_buffer[6]);
+
+        //rx_buffer[2] = frame_seq_nb++;
+        //dwt_write32bitreg(SYS_STATUS_ID, SYS_STATUS_TXFRS);
+        //dwt_writetxdata(frame_len, rx_buffer, 0); /* Zero offset in TX buffer. */
+        //dwt_writetxfctrl(frame_len, 0, 0); /* Zero offset in TX buffer, ranging. */
+
+        //dwt_starttx(DWT_START_TX_IMMEDIATE);
+
+      }
+    }
+    else
+    {
+      /* Clear RX error events in the DW1000 status register. */
+      dwt_write32bitreg(SYS_STATUS_ID, SYS_STATUS_ALL_RX_ERR);
+
+      /* Reset RX to properly reinitialise LDE operation. */
+      dwt_rxreset();
+    }
+
+    vTaskDelay(1);
+  }
+}
+
+int main(void)
+ {
+    //UNUSED_VARIABLE(xTaskCreate(rtos_status_task_function, "RTOS_STATUS", configMINIMAL_STACK_SIZE + 200, NULL, 2, NULL));
+    UNUSED_VARIABLE(xTaskCreate(dwt_task_function, "DWT_TASK", configMINIMAL_STACK_SIZE + 200, NULL, 2, NULL)); 
+
+    boUART_Init();
+    dw1000_init();
+
+    printf("--- START --- \r\n");
+
+    /* Start FreeRTOS scheduler. */
+    vTaskStartScheduler();	
+    
+    for(;;);
+}
