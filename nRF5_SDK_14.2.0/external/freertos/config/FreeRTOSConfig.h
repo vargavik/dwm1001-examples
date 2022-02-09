@@ -121,8 +121,8 @@
 #define configUSE_MALLOC_FAILED_HOOK                                              0
 
 /* Run time and task stats gathering related definitions. */
-#define configGENERATE_RUN_TIME_STATS                                             0
-#define configUSE_TRACE_FACILITY                                                  0
+#define configGENERATE_RUN_TIME_STATS                                             1
+#define configUSE_TRACE_FACILITY                                                  1
 #define configUSE_STATS_FORMATTING_FUNCTIONS                                      0
 
 /* Co-routine definitions. */

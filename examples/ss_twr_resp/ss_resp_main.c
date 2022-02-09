@@ -124,7 +124,7 @@ for(;;){
     if (frame_len <= RX_BUFFER_LEN)
     {
       dwt_readrxdata(rx_buffer, frame_len, 0);
-      printf("%02X %02X\n",rx_buffer[2],rx_buffer[6]);
+      //printf("%02X %02X\n",rx_buffer[2],rx_buffer[6]);
 
       //rx_buffer[2] = frame_seq_nb++;
       //dwt_write32bitreg(SYS_STATUS_ID, SYS_STATUS_TXFRS);
@@ -143,6 +143,8 @@ for(;;){
     /* Reset RX to properly reinitialise LDE operation. */
     dwt_rxreset();
   }
+
+  vTaskDelay(1);
 }
   return(1);		
 }
