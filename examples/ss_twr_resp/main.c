@@ -50,11 +50,11 @@
 //  DWT_PRF_16M, /* Pulse repetition frequency. */
 //  DWT_PLEN_2048, /* Preamble length. Used in TX only. */
 //  DWT_PAC32, /* Preamble acquisition chunk size. Used in RX only. */
-//  10, /* TX preamble code. Used in TX only. */
-//  10, /* RX preamble code. Used in RX only. */
+//  1, /* TX preamble code. Used in TX only. */
+//  1, /* RX preamble code. Used in RX only. */
 //  0, /* 0 to use standard SFD, 1 to use non-standard SFD. */
 //  DWT_BR_110K, /* Data rate. */
-//  DWT_PHRMODE_EXT, /* PHY header mode. */
+//  DWT_PHRMODE_STD, /* PHY header mode. */
 //  (2048 + 1 + 64 - 32) /* SFD timeout (preamble length + 1 + SFD length - PAC size). Used in RX only. */
 //};
 
