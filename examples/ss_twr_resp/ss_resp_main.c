@@ -125,6 +125,14 @@ for(;;){
     {
       dwt_readrxdata(rx_buffer, frame_len, 0);
       printf("%02X %02X\n",rx_buffer[2],rx_buffer[6]);
+
+      //rx_buffer[2] = frame_seq_nb++;
+      //dwt_write32bitreg(SYS_STATUS_ID, SYS_STATUS_TXFRS);
+      //dwt_writetxdata(frame_len, rx_buffer, 0); /* Zero offset in TX buffer. */
+      //dwt_writetxfctrl(frame_len, 0, 0); /* Zero offset in TX buffer, ranging. */
+
+      //dwt_starttx(DWT_START_TX_IMMEDIATE);
+
     }
   }
   else

@@ -62,8 +62,8 @@
   <Watches active="0" update="Never"/>
  </Watch4>
  <Files>
-  <SessionOpenFile windowGroup="DockEditLeft" x="36" y="153" useTextEdit="1" openedFrom="" useBinaryEdit="0" left="0" path="../main.c" selected="1" top="132" codecName="Default"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="1" y="137" useTextEdit="1" openedFrom="" useBinaryEdit="0" left="0" path="../ss_resp_main.c" selected="0" top="93" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="3" y="153" useTextEdit="1" openedFrom="" useBinaryEdit="0" left="0" path="../main.c" selected="1" top="132" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="0" y="137" useTextEdit="1" openedFrom="" useBinaryEdit="0" left="0" path="../ss_resp_main.c" selected="0" top="93" codecName="Default"/>
   <SessionOpenFile windowGroup="DockEditLeft" x="27" y="37" useTextEdit="1" openedFrom="" useBinaryEdit="0" left="0" path="../Uart/uart.c" selected="0" top="10" codecName="Default"/>
   <SessionOpenFile windowGroup="DockEditLeft" x="27" y="157" useTextEdit="1" openedFrom="C:/git/dwm1001-examples/examples/ss_twr_resp/Uart/uart.c" useBinaryEdit="0" left="0" path="../../../nRF5_SDK_14.2.0/components/libraries/uart/app_uart.h" selected="0" top="120" codecName="Default"/>
   <SessionOpenFile windowGroup="DockEditLeft" x="88" y="102" useTextEdit="1" openedFrom="" useBinaryEdit="0" left="20" path="../../../nRF5_SDK_14.2.0/external/freertos/config/FreeRTOSConfig.h" selected="0" top="69" codecName="Default"/>
