@@ -28,6 +28,7 @@
   <ProjectSessionItem path="ss_twr_resp;ss_twr_resp;Decadriver"/>
   <ProjectSessionItem path="ss_twr_resp;ss_twr_resp;Freertos"/>
   <ProjectSessionItem path="ss_twr_resp;ss_twr_resp;Internal Files"/>
+  <ProjectSessionItem path="ss_twr_resp;ss_twr_resp;nRF_Drivers"/>
   <ProjectSessionItem path="ss_twr_resp;ss_twr_resp;nRF_Libraries"/>
   <ProjectSessionItem path="ss_twr_resp;ss_twr_resp;Uart"/>
  </Project>
@@ -62,11 +63,11 @@
   <Watches active="0" update="Never"/>
  </Watch4>
  <Files>
-  <SessionOpenFile windowGroup="DockEditLeft" x="3" y="153" useTextEdit="1" openedFrom="" useBinaryEdit="0" left="0" path="../main.c" selected="1" top="132" codecName="Default"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="0" y="137" useTextEdit="1" openedFrom="" useBinaryEdit="0" left="0" path="../ss_resp_main.c" selected="0" top="93" codecName="Default"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="27" y="37" useTextEdit="1" openedFrom="" useBinaryEdit="0" left="0" path="../Uart/uart.c" selected="0" top="10" codecName="Default"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="27" y="157" useTextEdit="1" openedFrom="C:/git/dwm1001-examples/examples/ss_twr_resp/Uart/uart.c" useBinaryEdit="0" left="0" path="../../../nRF5_SDK_14.2.0/components/libraries/uart/app_uart.h" selected="0" top="120" codecName="Default"/>
-  <SessionOpenFile windowGroup="DockEditLeft" x="88" y="102" useTextEdit="1" openedFrom="" useBinaryEdit="0" left="20" path="../../../nRF5_SDK_14.2.0/external/freertos/config/FreeRTOSConfig.h" selected="0" top="69" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="57" y="185" useTextEdit="1" openedFrom="" useBinaryEdit="0" left="0" path="../main.c" selected="1" top="169" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="8" y="15" useTextEdit="1" openedFrom="C:/git/dwm1001-examples/examples/ss_twr_resp/main.c" useBinaryEdit="0" left="0" path="../../../boards/dw1001_dev.h" selected="0" top="0" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="34" y="500" useTextEdit="1" openedFrom="C:/git/dwm1001-examples/examples/ss_twr_resp/main.c" useBinaryEdit="0" left="0" path="../../../nRF5_SDK_14.2.0/components/drivers_nrf/gpiote/nrf_drv_gpiote.c" selected="0" top="472" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="83" y="136" useTextEdit="1" openedFrom="C:/git/dwm1001-examples/examples/ss_twr_resp/main.c" useBinaryEdit="0" left="0" path="../../../deca_driver/deca_device_api.h" selected="0" top="109" codecName="Default"/>
+  <SessionOpenFile windowGroup="DockEditLeft" x="37" y="2884" useTextEdit="1" openedFrom="C:/git/dwm1001-examples/examples/ss_twr_resp/main.c" useBinaryEdit="0" left="0" path="../../../deca_driver/deca_device.c" selected="0" top="2878" codecName="Default"/>
  </Files>
- <ARMCrossStudioWindow activeProject="ss_twr_resp" fileDialogDefaultFilter="*.c" autoConnectTarget="J-Link" buildConfiguration="nrf52832_xxaa" sessionSettings="" debugSearchFileMap="" fileDialogInitialDirectory="C:/git/dwm1001-examples/nRF5_SDK_14.2.0/components/libraries/uart" debugSearchPath="" autoConnectCapabilities="3199"/>
+ <ARMCrossStudioWindow activeProject="ss_twr_resp" fileDialogDefaultFilter="*.c" autoConnectTarget="J-Link" buildConfiguration="nrf52832_xxaa" sessionSettings="" debugSearchFileMap="" fileDialogInitialDirectory="C:/git/dwm1001-examples/nRF5_SDK_14.2.0/components/libraries/uart" debugSearchPath="" autoConnectCapabilities="3711"/>
 </session>
