@@ -63,3 +63,4 @@ dkms.conf
 ./examples/*/*.uvguix.*
 examples/ss_twr_init_int/SES/Output/nrf52832_xxaa/Obj/
 examples/ss_twr_resp/SES/Output/
+examples/ss_twr_init/SES/Output/

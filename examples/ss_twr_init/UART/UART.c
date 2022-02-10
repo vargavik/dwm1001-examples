@@ -35,7 +35,7 @@ const app_uart_comm_params_t comm_params =
   CTS_PIN_NUM,
   APP_UART_FLOW_CONTROL_DISABLED,
   NO_PARITY,
-  NRF_UART_BAUDRATE_115200
+  NRF_UART_BAUDRATE_1000000
 };
 
 // local functions

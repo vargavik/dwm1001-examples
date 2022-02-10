@@ -34,7 +34,6 @@
       c_additional_options="--reduce_paths" />
     <folder Name="Application">
       <file file_name="../main.c" />
-      <file file_name="../ss_init_main.c" />
       <file file_name="../config/sdk_config.h" />
     </folder>
     <folder Name="Board Definition">
